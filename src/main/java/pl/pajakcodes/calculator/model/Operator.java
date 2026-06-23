@@ -31,6 +31,16 @@ public enum Operator {
             }
             return a / b;
         }
+    },
+    POWER {
+        @Override
+        public double apply(double a, double b) {
+            double result = Math.pow(a, b);
+            if (Double.isNaN(result) || Double.isInfinite(result)) {
+                throw new ArithmeticException("Nie można obliczyć potęgi!");
+            }
+            return result;
+        }
     };
 
     public abstract double apply(double a, double b);

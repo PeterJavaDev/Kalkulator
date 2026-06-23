@@ -102,6 +102,17 @@ public class CalculatorModel {
         fireDisplayChanged();
     }
 
+    public void squareRoot() {
+        double value = Double.parseDouble(display);
+        if (value < 0) {
+            errorListener.onError("Nie można obliczyć pierwiastka z liczby ujemnej!");
+            display = "0";
+        } else {
+            display = format(Math.sqrt(value));
+        }
+        fireDisplayChanged();
+    }
+
     private void fireDisplayChanged() {
         displayListener.onDisplayChanged(display);
     }

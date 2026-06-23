@@ -8,6 +8,7 @@ import pl.pajakcodes.calculator.command.EqualsCommand;
 import pl.pajakcodes.calculator.command.NegateCommand;
 import pl.pajakcodes.calculator.command.OperatorCommand;
 import pl.pajakcodes.calculator.command.PercentCommand;
+import pl.pajakcodes.calculator.command.SquareRootCommand;
 import pl.pajakcodes.calculator.model.CalculatorModel;
 import pl.pajakcodes.calculator.model.Operator;
 
@@ -70,12 +71,26 @@ public class CalculatorFrame extends JFrame {
     }
 
     private JPanel buildButtonPanel() {
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 4, 5, 5));
+        JPanel buttonPanel = new JPanel(new BorderLayout(0, 5));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        for (ButtonSpec spec : keypad()) {
-            buttonPanel.add(createButton(spec));
-        }
+        buttonPanel.add(buildGrid(scientificRow(), 1, 2), BorderLayout.NORTH);
+        buttonPanel.add(buildGrid(keypad(), 5, 4), BorderLayout.CENTER);
         return buttonPanel;
+    }
+
+    private JPanel buildGrid(List<ButtonSpec> specs, int rows, int cols) {
+        JPanel panel = new JPanel(new GridLayout(rows, cols, 5, 5));
+        for (ButtonSpec spec : specs) {
+            panel.add(createButton(spec));
+        }
+        return panel;
+    }
+
+    private List<ButtonSpec> scientificRow() {
+        return List.of(
+                new ButtonSpec("√", ButtonStyle.FUNCTION, new SquareRootCommand(model)),
+                new ButtonSpec("xʸ", ButtonStyle.OPERATOR, new OperatorCommand(model, Operator.POWER))
+        );
     }
 
     private List<ButtonSpec> keypad() {
